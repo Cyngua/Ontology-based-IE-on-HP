@@ -1,0 +1,128 @@
+semantic_type,tui,group_name,group_abbr
+Activity,T052,Activities & Behaviors,ACTI
+Behavior,T053,Activities & Behaviors,ACTI
+Daily or Recreational Activity,T056,Activities & Behaviors,ACTI
+Event,T051,Activities & Behaviors,ACTI
+Governmental or Regulatory Activity,T064,Activities & Behaviors,ACTI
+Individual Behavior,T055,Activities & Behaviors,ACTI
+Machine Activity,T066,Activities & Behaviors,ACTI
+Occupational Activity,T057,Activities & Behaviors,ACTI
+Social Behavior,T054,Activities & Behaviors,ACTI
+Anatomical Structure,T017,Anatomy,ANAT
+Body Location or Region,T029,Anatomy,ANAT
+"Body Part, Organ, or Organ Component",T023,Anatomy,ANAT
+Body Space or Junction,T030,Anatomy,ANAT
+Body Substance,T031,Anatomy,ANAT
+Body System,T022,Anatomy,ANAT
+Cell,T025,Anatomy,ANAT
+Cell Component,T026,Anatomy,ANAT
+Embryonic Structure,T018,Anatomy,ANAT
+Fully Formed Anatomical Structure,T021,Anatomy,ANAT
+Tissue,T024,Anatomy,ANAT
+"Amino Acid, Peptide, or Protein",T116,Chemicals & Drugs,CHEM
+Antibiotic,T195,Chemicals & Drugs,CHEM
+Biologically Active Substance,T123,Chemicals & Drugs,CHEM
+Biomedical or Dental Material,T122,Chemicals & Drugs,CHEM
+Chemical,T103,Chemicals & Drugs,CHEM
+Chemical Viewed Functionally,T120,Chemicals & Drugs,CHEM
+Chemical Viewed Structurally,T104,Chemicals & Drugs,CHEM
+Clinical Drug,T200,Chemicals & Drugs,CHEM
+"Element, Ion, or Isotope",T196,Chemicals & Drugs,CHEM
+Enzyme,T126,Chemicals & Drugs,CHEM
+Hazardous or Poisonous Substance,T131,Chemicals & Drugs,CHEM
+Hormone,T125,Chemicals & Drugs,CHEM
+Immunologic Factor,T129,Chemicals & Drugs,CHEM
+"Indicator, Reagent, or Diagnostic Aid",T130,Chemicals & Drugs,CHEM
+Inorganic Chemical,T197,Chemicals & Drugs,CHEM
+"Nucleic Acid, Nucleoside, or Nucleotide",T114,Chemicals & Drugs,CHEM
+Organic Chemical,T109,Chemicals & Drugs,CHEM
+Pharmacologic Substance,T121,Chemicals & Drugs,CHEM
+Receptor,T192,Chemicals & Drugs,CHEM
+Vitamin,T127,Chemicals & Drugs,CHEM
+Classification,T185,Concepts & Ideas,CONC
+Conceptual Entity,T077,Concepts & Ideas,CONC
+Functional Concept,T169,Concepts & Ideas,CONC
+Group Attribute,T102,Concepts & Ideas,CONC
+Idea or Concept,T078,Concepts & Ideas,CONC
+Intellectual Product,T170,Concepts & Ideas,CONC
+Language,T171,Concepts & Ideas,CONC
+Qualitative Concept,T080,Concepts & Ideas,CONC
+Quantitative Concept,T081,Concepts & Ideas,CONC
+Regulation or Law,T089,Concepts & Ideas,CONC
+Spatial Concept,T082,Concepts & Ideas,CONC
+Temporal Concept,T079,Concepts & Ideas,CONC
+Drug Delivery Device,T203,Devices,DEVI
+Medical Device,T074,Devices,DEVI
+Research Device,T075,Devices,DEVI
+Acquired Abnormality,T020,Disorders,DISO
+Anatomical Abnormality,T190,Disorders,DISO
+Cell or Molecular Dysfunction,T049,Disorders,DISO
+Congenital Abnormality,T019,Disorders,DISO
+Disease or Syndrome,T047,Disorders,DISO
+Experimental Model of Disease,T050,Disorders,DISO
+Finding,T033,Disorders,DISO
+Injury or Poisoning,T037,Disorders,DISO
+Mental or Behavioral Dysfunction,T048,Disorders,DISO
+Neoplastic Process,T191,Disorders,DISO
+Pathologic Function,T046,Disorders,DISO
+Sign or Symptom,T184,Disorders,DISO
+Amino Acid Sequence,T087,Genes & Molecular Sequences,GENE
+Carbohydrate Sequence,T088,Genes & Molecular Sequences,GENE
+Gene or Genome,T028,Genes & Molecular Sequences,GENE
+Molecular Sequence,T085,Genes & Molecular Sequences,GENE
+Nucleotide Sequence,T086,Genes & Molecular Sequences,GENE
+Geographic Area,T083,Geographic Areas,GEOG
+Age Group,T100,Living Beings,LIVB
+Amphibian,T011,Living Beings,LIVB
+Animal,T008,Living Beings,LIVB
+Archaeon,T194,Living Beings,LIVB
+Bacterium,T007,Living Beings,LIVB
+Bird,T012,Living Beings,LIVB
+Eukaryote,T204,Living Beings,LIVB
+Family Group,T099,Living Beings,LIVB
+Fish,T013,Living Beings,LIVB
+Fungus,T004,Living Beings,LIVB
+Group,T096,Living Beings,LIVB
+Human,T016,Living Beings,LIVB
+Mammal,T015,Living Beings,LIVB
+Organism,T001,Living Beings,LIVB
+Patient or Disabled Group,T101,Living Beings,LIVB
+Plant,T002,Living Beings,LIVB
+Population Group,T098,Living Beings,LIVB
+Professional or Occupational Group,T097,Living Beings,LIVB
+Reptile,T014,Living Beings,LIVB
+Vertebrate,T010,Living Beings,LIVB
+Virus,T005,Living Beings,LIVB
+Entity,T071,Objects,OBJC
+Food,T168,Objects,OBJC
+Manufactured Object,T073,Objects,OBJC
+Physical Object,T072,Objects,OBJC
+Substance,T167,Objects,OBJC
+Biomedical Occupation or Discipline,T091,Occupations,OCCU
+Occupation or Discipline,T090,Occupations,OCCU
+Health Care Related Organization,T093,Organizations,ORGA
+Organization,T092,Organizations,ORGA
+Professional Society,T094,Organizations,ORGA
+Self-help or Relief Organization,T095,Organizations,ORGA
+Biologic Function,T038,Phenomena,PHEN
+Environmental Effect of Humans,T069,Phenomena,PHEN
+Human-caused Phenomenon or Process,T068,Phenomena,PHEN
+Laboratory or Test Result,T034,Phenomena,PHEN
+Natural Phenomenon or Process,T070,Phenomena,PHEN
+Phenomenon or Process,T067,Phenomena,PHEN
+Cell Function,T043,Physiology,PHYS
+Clinical Attribute,T201,Physiology,PHYS
+Genetic Function,T045,Physiology,PHYS
+Mental Process,T041,Physiology,PHYS
+Molecular Function,T044,Physiology,PHYS
+Organism Attribute,T032,Physiology,PHYS
+Organism Function,T040,Physiology,PHYS
+Organ or Tissue Function,T042,Physiology,PHYS
+Physiologic Function,T039,Physiology,PHYS
+Diagnostic Procedure,T060,Procedures,PROC
+Educational Activity,T065,Procedures,PROC
+Health Care Activity,T058,Procedures,PROC
+Laboratory Procedure,T059,Procedures,PROC
+Molecular Biology Research Technique,T063,Procedures,PROC
+Research Activity,T062,Procedures,PROC
+Therapeutic or Preventive Procedure,T061,Procedures,PROC

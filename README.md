@@ -59,5 +59,19 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 ## 📎 Dependencies
 
 - Python 3.8+
-- `spaCy`, `transformers`, `pandas`, `scikit-learn`, `nltk`
-- (Optional) `QuickUMLS`, `UMLS API`, `BioPortal`
+- `spaCy`, `transformers`, `pandas`, `scikit-learn`
+- (Optional) `UMLS API`
+
+## Notes
+
+### Project Data Mart
+
+We built a lightweight project data mart using SQLite to store and manage structured information related to annotated clinical notes, concept mappings, and semantic group metadata. The database schema captures relationships between notes, concept annotations, and semantic groupings to support downstream data analysis and querying. To populate the database with CSV data, you can use the SQLite command-line interface as follows:
+```
+sqlite3 database.db
+sqlite> .mode csv
+sqlite> .import <csv_file> <table_name>
+sqlite> .exit
+```
+
+![alt text](crud/schema.png)
