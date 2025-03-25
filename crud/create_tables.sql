@@ -20,11 +20,11 @@ CREATE TABLE Concepts (
     concept_id INTEGER,
     cui TEXT,
     name TEXT,
-    semantic_types TEXT,
+    semantic_type TEXT,
     atom_url TEXT,
     relations_url TEXT,
     PRIMARY KEY (concept_id, cui),
-    FOREIGN KEY (semantic_types) REFERENCES Semantic_Groups(semantic_type)
+    FOREIGN KEY (semantic_type) REFERENCES Semantic_Groups(semantic_type)
 );
 
 -- Table: Semantic_Groups

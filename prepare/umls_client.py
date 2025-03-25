@@ -5,6 +5,8 @@ import os
 import requests
 import pprint
 import tqdm
+import pandas as pd
+import json
 from functools import lru_cache
 from dotenv import load_dotenv
 load_dotenv()
@@ -33,8 +35,8 @@ class UMLSClient:
         return {
             "cui": cui,
             "name": result.get("name"),
-            "semantic_types": [st["name"] for st in result.get("semanticTypes", [])],
-            "atoms_url": result.get("atoms"),
+            "semantic_types": [st["name"] for st in result.get("semanticTypes", [])][0],
+            "atom_url": result.get("atoms"),
             "relations_url": result.get("relations")
         }
 
@@ -52,7 +54,13 @@ class UMLSClient:
         results = (([outputJson['result']])[0])['results']
         if len(results) == 0:
             print(f'No results found for {ui}')
-            return None
+            return {
+                    "cui": None,
+                    "name": None,
+                    "semantic_types": None,
+                    "atoms_url": None,
+                    "relations_url": None
+                }
         concept_url = results[0]['uri']
         params = {"apiKey": self.api_key}
         response = requests.get(concept_url, params=params)
@@ -61,12 +69,12 @@ class UMLSClient:
         return {
             "cui": results[0].get('ui'),
             "name": query.get("name"),
-            "semantic_types": [st["name"] for st in query.get("semanticTypes", [])],
-            "atoms_url": query.get("atoms"),
+            "semantic_types": [st["name"] for st in query.get("semanticTypes", [])][0],
+            "atom_url": query.get("atoms"),
             "relations_url": query.get("relations")
         }
 
-def get_semantic_types(client, ui_list):
+def get_semantic_types(client: UMLSClient, ui_list):
     """
     Get semantic type names by a list of snomedct ui.
     """
@@ -79,7 +87,19 @@ def get_semantic_types(client, ui_list):
             semantic_map[ui] = result.get("semantic_types", '')
     return semantic_map
 
-if __name__ == '__main__':
+def get_concept_info_all(client: UMLSClient, ui_list):
+    '''
+    Get all the relative concept info given a list of us
+    '''
+    concept_info_map = {}
+    result = None
+    for ui in tqdm.tqdm(ui_list):
+        result = client.get_concept_info_snomedct(ui)
+        concept_info_map[str(ui)] = result
+    return concept_info_map
+
+
+def test():
     client = UMLSClient(api_key)
     ui = 22298006
     info = client.get_concept_info_snomedct(ui)
@@ -101,3 +121,16 @@ if __name__ == '__main__':
     ]
     mapping = get_semantic_types(client, ui_list)
     pprint.pprint(mapping)
+
+def main():
+    client = UMLSClient(api_key)
+    FOLDER = 'data/benchmark_data'
+    annotation_df = pd.read_csv(os.path.join(FOLDER, 'train_annotations.csv'))
+    ui_list = annotation_df['concept_id'].unique()
+    mapping = get_concept_info_all(client, ui_list)
+    # Write to JSON
+    with open('concept_info_map.json', 'w') as f:
+        json.dump(mapping, f, indent=2)
+
+if __name__ == '__main__':
+    main()

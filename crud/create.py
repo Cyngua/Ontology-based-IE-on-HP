@@ -1,5 +1,5 @@
 '''
-crud for the clinical notes data mart
+create tables for the clinical notes data mart
 '''
 # utils
 import sqlite3
