@@ -74,4 +74,4 @@ sqlite> .import <csv_file> <table_name>
 sqlite> .exit
 ```
 
-![alt text](crud/schema.png)
+![alt text](figures/schema.png)
