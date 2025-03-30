@@ -47,6 +47,18 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ---
 
+## Results
+|               | Accuracy | Precision | Recall | F1     | Validation Loss | Train Runtime |
+|---------------|----------|-----------|--------|--------|-----------------|---------------|
+| BERT          | 0.9288   | 0.7144    | 0.7751 | 0.7435 | 0.2834          | 1239.1881     |
+| Clinical-BERT | 0.9284   | 0.7129    | 0.7629 | 0.7370 | 0.2256          | 433.2273      |
+
+Training progress of clinical-BERT:
+
+![alt text](figures/clinical_bert_output_2.png)
+
+---
+
 ## Future Work
 
 - Extend to relation extraction (e.g., link conditions to medications).
