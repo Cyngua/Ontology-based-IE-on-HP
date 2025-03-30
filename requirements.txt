@@ -2,6 +2,9 @@
 # Core ML & Transformers
 # ===============================
 transformers>=4.38.0
+torch
+sentencepiece
+protobuf
 
 # ===============================
 # NER Evaluation
@@ -27,3 +30,8 @@ ipython>=8.0.0
 jupyter>=1.0.0
 tqdm>=4.64.0
 python-dotenv>=1.0.0     # For loading environment variables from .env files
+
+# ===============================
+# Visualization
+# ===============================
+matplotlib
