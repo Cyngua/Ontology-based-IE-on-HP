@@ -20,27 +20,26 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ### 1. **Preprocessing**
 - Load raw H&P text notes.
-- Tokenize using `spaCy` or `Hugging Face` tokenizer.
-- Align token spans with annotated character offsets.
+- Align token spans with annotated character offsets using `spaCy`tokenizer..
 
 ### 2. **Concept Mapping**
-- Map each `concept_id` to an entity group (e.g., `PROCEDURE`, `CONDITION`) using: SNOMED CT hierarchy
+- Map each `concept_id` to an entity group (e.g., `PROCEDURE`, `CONDITION`) using: UMLS API
 
 ### 3. **NER Data Formatting**
 - Convert aligned tokens into BIO-tagged format (e.g., `B-CONDITION`, `I-PROCEDURE`, `O`).
-- Export training data in CoNLL format or JSON (for spaCy or HuggingFace).
+- Export training data in csv format.
 
 ### 4. **Model Training**
-- Fine-tune a pretrained clinical language model (e.g., `BioClinicalBERT`, `SciBERT`) using token classification.
-- Train using Hugging Face Transformers or spaCy pipelines.
+- Fine-tune a pretrained clinical language model (`BERT` as the baseline) using token classification.
+- Train using Hugging Face Transformers pipelines.
 
 ### 5. **Evaluation**
 - Evaluate using precision, recall, and F1-score at the entity level.
-- Perform qualitative comparison against baseline models (e.g., `SciSpacy`, `QuickUMLS`).
+- Perform qualitative comparison against baseline model (`BERT`).
 
 ---
 
-## ✅ Goals
+## AIM
 
 - Build a robust, domain-adapted NER model for clinical entity extraction.
 - Normalize extracted terms to SNOMED CT for downstream applications.
@@ -48,7 +47,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ---
 
-## 🚀 Future Work
+## Future Work
 
 - Extend to relation extraction (e.g., link conditions to medications).
 - Integrate negation and temporality detection.
@@ -56,11 +55,25 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ---
 
-## 📎 Dependencies
+## Dependencies
 
 - Python 3.8+
 - `spaCy`, `transformers`, `pandas`, `scikit-learn`
 - (Optional) `UMLS API`
+
+Virtual environment setup:
+```
+# 1. Create the environment
+conda create -n clinical-ner python=3.9 -y
+conda activate clinical-ner
+
+# 2. Install PyTorch and CUDA support via conda
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# 3. Install the rest libraries via pip
+pip install -r requirements.txt
+```
+
 
 ## Notes
 
@@ -68,7 +81,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 We built a lightweight project data mart using SQLite to store and manage structured information related to annotated clinical notes, concept mappings, and semantic group metadata. The database schema captures relationships between notes, concept annotations, and semantic groupings to support downstream data analysis and querying. To populate the database with CSV data, you can use the SQLite command-line interface as follows:
 ```
-sqlite3 database.db
+sqlite3 database.sqlite
 sqlite> .mode csv
 sqlite> .import <csv_file> <table_name>
 sqlite> .exit

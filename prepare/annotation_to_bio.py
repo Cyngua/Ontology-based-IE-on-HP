@@ -62,7 +62,7 @@ def main():
         for sentence_id, token_label_pairs in enumerate(sentence_bio_pairs):
             tokens = [token for token, _ in token_label_pairs]
             labels = [label for _, label in token_label_pairs]
-            row_entries = [note_id, sentence_id, ' '.join(tokens), ','.join(labels)]
+            row_entries = [note_id, sentence_id, tokens, labels]
             rows.append(row_entries)
     df = pd.DataFrame(rows, columns=["note_id", "sentence_id", "sentence", "tags"])
     print(df.head())

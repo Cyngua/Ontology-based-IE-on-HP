@@ -1,6 +1,10 @@
+# data and models too big for github
 /data/
+/saved_model/
+
 .DS_Store
 .env
+
 # Database file
 *.sqlite
 

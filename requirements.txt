@@ -1,0 +1,29 @@
+# ===============================
+# Core ML & Transformers
+# ===============================
+transformers>=4.38.0
+
+# ===============================
+# NER Evaluation
+# ===============================
+seqeval>=1.2.2
+
+# ===============================
+# Data Handling
+# ===============================
+pandas>=1.5.0
+numpy>=1.21.0
+scikit-learn>=1.3.0
+
+# ===============================
+# NLP Utilities
+# ===============================
+spacy>=3.7.0
+
+# ===============================
+# Dev Tools / Interactive
+# ===============================
+ipython>=8.0.0
+jupyter>=1.0.0
+tqdm>=4.64.0
+python-dotenv>=1.0.0     # For loading environment variables from .env files
