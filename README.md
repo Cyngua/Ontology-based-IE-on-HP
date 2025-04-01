@@ -68,7 +68,7 @@ conda create -n clinical-ner python=3.9 -y
 conda activate clinical-ner
 
 # 2. Install PyTorch and CUDA support via conda
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # 3. Install the rest libraries via pip
 pip install -r requirements.txt
