@@ -31,7 +31,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ### 4. **Experimental Design**
 - Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
-- Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
+- ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
 - Model Fusion: the best baseline model + CRF.
 - Model Ensemble: integrate prediction results from the three finetuning models.
 - (Optional)Hybrid approaches: (GNN + Transformer embeddings).
