@@ -29,9 +29,14 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 - Convert aligned tokens into BIO-tagged format (e.g., `B-CONDITION`, `I-PROCEDURE`, `O`).
 - Export training data in csv format.
 
-### 4. **Model Training**
-- Fine-tune a pretrained clinical language model (`BERT` as the baseline) using token classification.
-- Train using Hugging Face Transformers pipelines.
+### 4. **Experimental Design**
+- Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
+- Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
+- Model Fusion: the best baseline model + CRF.
+- Model Ensemble: integrate prediction results from the three finetuning models.
+- (Optional)Hybrid approaches: (GNN + Transformer embeddings).
+
+Justification: This experimental design (1) systematically **evaluates transformer-based clinical NER** by benchmarking general and clinical-domain models, (2) enhancing them via **CRF-based fusion**, **ensemble modeling**, and (optional) integrating transformer embeddings with graph neural networks for semantic enrichment using clinical ontologies.
 
 ### 5. **Evaluation**
 - Evaluate using precision, recall, and F1-score at the entity level.
@@ -103,14 +108,14 @@ sqlite> .exit
 
 ### Run python script on HPC
 
-Shell file template
+Shell script template
 ```sh
 #!/bin/bash
 #SBATCH --partition=gpu
 #SBATCH --gpus=a100:1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=10G                    # Request 10 GiB of memory
-#SBATCH --time=12:00:00               # Set a maximum runtime of 6 hours
+#SBATCH --mem=10G                               # Request 10 GiB of memory
+#SBATCH --time=6:00:00                         # Set a maximum runtime of 6 hours
 #SBATCH --output=logs/medical_ner_train_%j.out  # Save standard output to log file
 #SBATCH --error=logs/medical_ner_train_%j.err   # Save error output to log file
 
