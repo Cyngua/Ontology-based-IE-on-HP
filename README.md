@@ -31,7 +31,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 
 ### 4. **Experimental Design**
 - Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
-- Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
+- ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
 - Model Fusion: the best baseline model + CRF.
 - Model Ensemble: integrate prediction results from the three finetuning models.
 - (Optional)Hybrid approaches: (GNN + Transformer embeddings).
@@ -85,7 +85,7 @@ conda create -n clinical-ner python=3.9 -y
 conda activate clinical-ner
 
 # 2. Install PyTorch and CUDA support via conda
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # 3. Install the rest libraries via pip
 pip install -r requirements.txt

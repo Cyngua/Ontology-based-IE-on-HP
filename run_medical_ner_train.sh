@@ -8,7 +8,7 @@
 #SBATCH --error=logs/medical_ner_train_%j.err   # Save error output to log file
 
 # Run the Python script
-python models/medical_ner_train.py
+python models/clinical_bert_train.py
 
 # Print job finish time
 echo "Job finished at $(date)"
