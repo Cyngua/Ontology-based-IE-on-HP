@@ -30,7 +30,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 - Export training data in csv format.
 
 ### 4. **Experimental Design**
-- Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
+- ✅ Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
 - ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
 - Model Fusion: the best baseline model + CRF.
 - Model Ensemble: integrate prediction results from the three finetuning models.
@@ -51,6 +51,18 @@ Justification: This experimental design (1) systematically **evaluates transform
 - Enable accurate information extraction from narrative clinical text, particularly H&P sections.
 
 ---
+## Results - Baseline (Feature Extraction)
+|               | Accuracy | Precision | Recall | F1     |
+|---------------|----------|-----------|--------|--------|
+| BERT          | 0.8732	 | 0.4909    | 0.4690 | 0.4797 |
+| Clinical-BERT | 0.8123	 | 0.2500    | 0.0184 | 0.0344 |
+| deBerta       | **0.8787**	 | 0.5207    | 0.4942 | **0.5071** |
+Notes: `Clinical-BERT` validation loss has reached its "local minimum", but the evaluation metrics are still terrible. `deBerta` has very fluctuating training loss curve, while the evaluation metrics shows that it truely has the best potential to predict the token classification on the baseline.
+
+Figure 1: Bert baseline
+![bert baseline](figures/baseline_bert.png)
+Figure 2: DeBerta baseline
+![deberta baseline](figures/baseline_deberta.png)
 
 ## Results - Model Fine-tuning
 |               | Accuracy | Precision | Recall | F1     | Validation Loss | Train Runtime |
@@ -60,7 +72,8 @@ Justification: This experimental design (1) systematically **evaluates transform
 
 Training progress of clinical-BERT:
 
-![alt text](figures/clinical_bert_output_2.png)
+Figure 3: Clinical-Bert Finetuning
+![clinical bert finetuning](figures/clinical_bert_output_2.png)
 
 ---
 
