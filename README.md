@@ -106,7 +106,7 @@ pip install -r requirements.txt
 ```
 
 
-## Notes
+## Tips and Issue Handling
 
 ### Project Data Mart
 
@@ -147,3 +147,20 @@ chmod +x ~/run_medical_ner_train.sh
 ```sh
 sbatch ~/run_medical_ner_train.sh
 ```
+### Issue I: deBerta attention score overflow
+Open the file directly in Terminal with an editor (replace the virtual environment name with yours)
+```bash
+vim ~/.conda/envs/clinical-ner/lib/python3.9/site-packages/transformers/models/deberta/modeling_deberta.py
+```
+To search for specific line number: type `:290` and press Enter.<br>
+In vim: Press `i` to switch to `__INSERT__` mode.<br>
+Replace the following code:
+```
+attention_scores = attention_scores.masked_fill(~(attention_mask), torch.finfo(query_layer.dtype).min)
+```
+with this line:
+```
+attention_scores = attention_scores.masked_fill(~(attention_mask), -1e04)
+```
+Save and exit the file: Press `Esc`, type `:wq`, then press `Enter`.
+
