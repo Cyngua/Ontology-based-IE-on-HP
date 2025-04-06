@@ -30,8 +30,8 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 - Export training data in csv format.
 
 ### 4. **Experimental Design**
-- ✅ Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBerta`.
-- ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBerta` using Huggingface Transformer Training Pipeline.
+- ✅ Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBERTa`.
+- ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBERTa` using Huggingface Transformer Training Pipeline.
 - Model Fusion: the best baseline model + CRF.
 - Model Ensemble: integrate prediction results from the three finetuning models.
 - (Optional)Hybrid approaches: (GNN + Transformer embeddings).
@@ -41,6 +41,19 @@ Justification: This experimental design (1) systematically **evaluates transform
 ### 5. **Evaluation**
 - Evaluate using precision, recall, and F1-score at the entity level.
 - Perform qualitative comparison against baseline model (`BERT`).
+
+### 6. **Post-processing**
+* Minimal: Decode model outputs back to text and semantic tags (merge B/I, skip O)
+* Good to have: Extract word-tag pairs
+* Best to have: Map words to SNOMED CT terms
+
+| **Goal**            | **Tool/Library**                                                                 | **Purpose**                                           |
+|---------------------|----------------------------------------------------------------------------------|-------------------------------------------------------|
+| Decoding            | Model's tokenizer (e.g. HuggingFace's `tokenizer.decode`)                  | Turn token indices back into words                    |
+| Post-processing     | `seqeval`, `pandas`                                                              | Convert IOB/IO format to structured entities          |
+| Extraction          | Python dictionary/set logic, `collections.defaultdict`                           | Aggregate by tags                                     |
+| Normalization       | 🔹 **ScispaCy**, 🔹 **QuickUMLS**, 🔹 **BioPortal API**                            | Map raw terms to SNOMED CT                            |
+| SNOMED CT Integration | 🔸 `pysnomed` (if you have a license) or 🔸 FHIR terminology server              | Lookup and standardize with SNOMED CT concept codes   |
 
 ---
 
@@ -56,7 +69,7 @@ Justification: This experimental design (1) systematically **evaluates transform
 |---------------|----------|-----------|--------|--------|
 | BERT          | 0.8732	 | 0.4909    | 0.4690 | 0.4797 |
 | Clinical-BERT | 0.8123	 | 0.2500    | 0.0184 | 0.0344 |
-| deBerta       | **0.8787**	 | 0.5207    | 0.4942 | **0.5071** |
+| DeBERTa       | **0.8787**	 | 0.5207    | 0.4942 | **0.5071** |
 
 Notes: `Clinical-BERT` validation loss has reached its "local minimum", but the evaluation metrics are still terrible. `deBerta` has very fluctuating training loss curve, while the evaluation metrics shows that it truely has the best potential to predict the token classification on the baseline.
 
@@ -95,10 +108,11 @@ Figure 3: Clinical-Bert Finetuning
 Virtual environment setup:
 ```
 # 1. Create the environment
+module load miniconda
 conda create -n clinical-ner python=3.9 -y
 conda activate clinical-ner
 
-# 2. Install PyTorch and CUDA support via conda
+# 2. Install PyTorch and CUDA support
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # 3. Install the rest libraries via pip
@@ -120,7 +134,7 @@ sqlite> .exit
 
 ![alt text](figures/schema.png)
 
-### Run python script on HPC
+### Setup jobs on HPC
 
 Shell script template
 ```sh
