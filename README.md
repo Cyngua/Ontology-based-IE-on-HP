@@ -19,8 +19,8 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 ## Workflow Overview
 
 ### 1. **Preprocessing**
-- Load raw H&P text notes.
-- Align token spans with annotated character offsets using `spaCy`tokenizer..
+- Load raw clinical notes.
+- Align token spans with annotated character offsets.
 
 ### 2. **Concept Mapping**
 - Map each `concept_id` to an entity group (e.g., `PROCEDURE`, `CONDITION`) using: UMLS API
@@ -28,6 +28,7 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 ### 3. **NER Data Formatting**
 - Convert aligned tokens into BIO-tagged format (e.g., `B-CONDITION`, `I-PROCEDURE`, `O`).
 - Export training data in csv format.
+
 
 ### 4. **Experimental Design**
 - ✅ Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBERTa`.
@@ -39,18 +40,17 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 Justification: This experimental design (1) systematically **evaluates transformer-based clinical NER** by benchmarking general and clinical-domain models, (2) enhancing them via **CRF-based fusion**, **ensemble modeling**, and (optional) integrating transformer embeddings with graph neural networks for semantic enrichment using clinical ontologies.
 
 ### 5. **Evaluation**
-- Evaluate using precision, recall, and F1-score at the entity level.
+- ✅ Evaluate using precision, recall, and F1-score at the entity level.
 - Perform qualitative comparison against baseline model (`BERT`).
 
 ### 6. **Post-processing**
-* Minimal: Decode model outputs back to text and semantic tags (merge B/I, skip O)
+* ✅ Minimal: Decode model outputs back to text and semantic tags (merge B/I, skip O)
 * Good to have: Extract word-tag pairs
 * Best to have: Map words to SNOMED CT terms
 
 | **Goal**            | **Tool/Library**                                                                 | **Purpose**                                           |
 |---------------------|----------------------------------------------------------------------------------|-------------------------------------------------------|
-| Decoding            | Model's tokenizer (e.g. HuggingFace's `tokenizer.decode`)                  | Turn token indices back into words                    |
-| Post-processing     | `seqeval`, `pandas`                                                              | Convert IOB/IO format to structured entities          |
+| Post-processing     | Transformer `pipeline`                                                              | Convert IOB/IO format to structured entities          |
 | Extraction          | Python dictionary/set logic, `collections.defaultdict`                           | Aggregate by tags                                     |
 | Normalization       | 🔹 **ScispaCy**, 🔹 **QuickUMLS**, 🔹 **BioPortal API**                            | Map raw terms to SNOMED CT                            |
 | SNOMED CT Integration | 🔸 `pysnomed` (if you have a license) or 🔸 FHIR terminology server              | Lookup and standardize with SNOMED CT concept codes   |
@@ -79,15 +79,97 @@ Figure 2: DeBerta baseline
 ![deberta baseline](figures/baseline_deberta.png)
 
 ## Results - Model Fine-tuning
-|               | Accuracy | Precision | Recall | F1     | Validation Loss | Train Runtime |
-|---------------|----------|-----------|--------|--------|-----------------|---------------|
-| BERT          | 0.9288   | 0.7144    | 0.7751 | 0.7435 | 0.2834          | 1239.1881     |
-| Clinical-BERT | 0.9284   | 0.7129    | 0.7629 | 0.7370 | 0.2256          | 433.2273      |
+|               | Accuracy | Precision | Recall | F1     |
+|---------------|----------|-----------|--------|--------|
+| BERT          | 0.9288   | 0.7143    | 0.7755 | 0.7437 |
+| Clinical-BERT | 0.9284   | 0.7129    | 0.7629 | 0.7370 |
 
 Training progress of clinical-BERT:
 
 Figure 3: Clinical-Bert Finetuning
 ![clinical bert finetuning](figures/clinical_bert_output_2.png)
+
+We also validate the metrics for each semantic tags we have:
+### BERT
+| Label | Precision | Recall | F1-score | Support |
+|-------|-----------|--------|----------|---------|
+| ACTI  | 0.67      | 0.59   | 0.62     | 17      |
+| ANAT  | 0.63      | 0.72   | 0.67     | 755     |
+| CHEM  | 1.00      | 0.75   | 0.86     | 4       |
+| CONC  | 0.54      | 0.56   | 0.55     | 66      |
+| DISO  | 0.76      | 0.82   | 0.79     | 5023    |
+| OBJC  | 0.67      | 0.50   | 0.57     | 4       |
+| PHEN  | 0.50      | 0.04   | 0.08     | 23      |
+| PHYS  | 0.83      | 0.73   | 0.77     | 85      |
+| PROC  | 0.63      | 0.71   | 0.67     | 1938    |
+| UNK   | 0.35      | 0.30   | 0.32     | 27      |
+
+**Averages**:
+
+| Metric        | Precision | Recall | F1-score | Support |
+|---------------|-----------|--------|----------|---------|
+| Micro avg     | 0.71      | 0.78   | 0.74     | 7942    |
+| Macro avg     | 0.66      | 0.57   | 0.59     | 7942    |
+| Weighted avg  | 0.72      | 0.78   | 0.74     | 7942    |
+
+Observations:
+* Strong labels: DISO, PHYS, ANAT, PROC show solid F1 (0.67–0.79) — the model is doing well on high-frequency clinical entities.
+* Weak labels: PHEN, UNK, and low-support labels like CHEM, OBJC — likely due to data ambiguity.
+* Macro F1 = 0.59 → some labels are dragging down the average
+* Weighted F1 = 0.74 → good overall performance weighted by label frequency
+
+---
+
+## Post-processing Pipeline
+We built a post-processing pipeline that enables:
+
+- ✅ Inference on **any input clinical text** (not limited to training/validation sets)
+- ✅ Efficient execution on **CPU devices**
+- ✅ Using HuggingFace `transformers` `pipeline`
+- ✅ Automatic **aggregation** and **semantic tag decoding**
+- ✅ Available as a **command-line app** for convenient batch processing or scripting
+
+The command-line app (`post_processing/decoding_pipeline.py`) takes the following inputs:
+```
+usage: decoding_pipeline.py [-h] --model_name MODEL_NAME [--finetune] --input_file INPUT_FILE --output_file OUTPUT_FILE
+
+Run NER inference using a fine-tuned Transformer model
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --model_name MODEL_NAME
+                        Options: bert, clinicalbert, deberta
+  --finetune            Use the fine-tuned model (if set), otherwise use the baseline
+  --input_file INPUT_FILE
+                        Path to input .txt file containing clinical text
+  --output_file OUTPUT_FILE
+                        Path to output .txt file where predictions will be saved
+
+```
+Example Usages:
+```
+# Use baseline
+python decoding_pipeline.py --model_name bert --input_file note.txt --output_file out.txt
+
+# Use fine-tuned model
+python decoding_pipeline.py --model_name bert --finetune --input_file note.txt --output_file out.txt
+```
+
+The following is one example input text from real H&P:
+```
+Patient reported that he has been having diarrhea which she described as liquid stools with incontinence.  
+He also reported burning in the urine.  
+He has been taking all of his medications including Bumex, colchicine 
+```
+The corresponding output would be:
+```
+dia -> DISO (score: 1.00)
+##rrhea -> DISO (score: 1.00)
+liquid stools -> DISO (score: 0.98)
+incontinence -> DISO (score: 0.98)
+burning in the urine -> DISO (score: 1.00)
+medications -> PROC (score: 0.57)
+```
 
 ---
 
