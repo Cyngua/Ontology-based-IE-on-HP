@@ -68,8 +68,8 @@ Justification: This experimental design (1) systematically **evaluates transform
 |               | Accuracy | Precision | Recall | F1     |
 |---------------|----------|-----------|--------|--------|
 | BERT          | 0.8732	 | 0.4909    | 0.4690 | 0.4797 |
-| Clinical-BERT | 0.8123	 | 0.2500    | 0.0184 | 0.0344 |
-| DeBERTa       | **0.8787**	 | 0.5207    | 0.4942 | **0.5071** |
+| Clinical-BERT | **0.8864**	 | 0.5314    | 0.5456 | **0.5384** |
+| DeBERTa       | 0.8787	 | 0.5207    | 0.4942 | 0.5071 |
 
 Notes: `Clinical-BERT` validation loss has reached its "local minimum", but the evaluation metrics are still terrible. `deBerta` has very fluctuating training loss curve, while the evaluation metrics shows that it truely has the best potential to predict the token classification on the baseline.
 
@@ -81,8 +81,8 @@ Figure 2: DeBerta baseline
 ## Results - Model Fine-tuning
 |               | Accuracy | Precision | Recall | F1     |
 |---------------|----------|-----------|--------|--------|
-| BERT          | 0.9288   | 0.7143    | 0.7755 | 0.7437 |
-| Clinical-BERT | 0.9284   | 0.7129    | 0.7629 | 0.7370 |
+| BERT          | 0.9288   | 0.72      | 0.78   | 0.74   |  
+| Clinical-BERT | 0.9284   | 0.72      | 0.78   | **0.75**   |    
 
 Training progress of clinical-BERT:
 
@@ -94,14 +94,14 @@ We also validate the metrics for each semantic tags we have:
 | Label | Precision | Recall | F1-score | Support |
 |-------|-----------|--------|----------|---------|
 | ACTI  | 0.67      | 0.59   | 0.62     | 17      |
-| ANAT  | 0.63      | 0.72   | 0.67     | 755     |
-| CHEM  | 1.00      | 0.75   | 0.86     | 4       |
+| ANAT  | 0.63      | 0.72   | **0.67**     | 755     |
+| CHEM  | 1.00      | 0.75   | **0.86**     | 4       |
 | CONC  | 0.54      | 0.56   | 0.55     | 66      |
-| DISO  | 0.76      | 0.82   | 0.79     | 5023    |
+| DISO  | 0.76      | 0.82   | **0.79**     | 5023    |
 | OBJC  | 0.67      | 0.50   | 0.57     | 4       |
 | PHEN  | 0.50      | 0.04   | 0.08     | 23      |
-| PHYS  | 0.83      | 0.73   | 0.77     | 85      |
-| PROC  | 0.63      | 0.71   | 0.67     | 1938    |
+| PHYS  | 0.83      | 0.73   | **0.77**     | 85      |
+| PROC  | 0.63      | 0.71   | **0.67**     | 1938    |
 | UNK   | 0.35      | 0.30   | 0.32     | 27      |
 
 **Averages**:
@@ -110,13 +110,36 @@ We also validate the metrics for each semantic tags we have:
 |---------------|-----------|--------|----------|---------|
 | Micro avg     | 0.71      | 0.78   | 0.74     | 7942    |
 | Macro avg     | 0.66      | 0.57   | 0.59     | 7942    |
-| Weighted avg  | 0.72      | 0.78   | 0.74     | 7942    |
+| Weighted avg  | 0.72      | 0.78   | **0.74**     | 7942    |
 
 Observations:
 * Strong labels: DISO, PHYS, ANAT, PROC show solid F1 (0.67–0.79) — the model is doing well on high-frequency clinical entities.
 * Weak labels: PHEN, UNK, and low-support labels like CHEM, OBJC — likely due to data ambiguity.
 * Macro F1 = 0.59 → some labels are dragging down the average
 * Weighted F1 = 0.74 → good overall performance weighted by label frequency
+
+### ClinicalBERT
+| Label    | Precision | Recall | F1-score | Support |
+|----------|-----------|--------|----------|---------|
+| ACTI     | 0.69      | 0.53   | 0.60     | 17      |
+| ANAT     | 0.64      | 0.71   | **0.67**     | 750     |
+| CHEM     | 1.00      | 0.75   | **0.86**     | 4       |
+| CONC     | 0.59      | 0.58   | 0.58     | 64      |
+| DISO     | 0.76      | 0.82   | **0.79**     | 4965    |
+| OBJC     | 0.67      | 0.50   | 0.57     | 4       |
+| PHEN     | 0.09      | 0.04   | 0.06     | 23      |
+| PHYS     | 0.80      | 0.71   | **0.75**     | 84      |
+| PROC     | 0.66      | 0.72   | **0.69**     | 1917    |
+| UNK      | 0.50      | 0.19   | 0.27     | 27      |
+
+**Averages**:
+
+| Label    | Precision | Recall | F1-score | Support |
+|----------|-----------|--------|----------|---------|
+| **Micro Avg** | 0.72 | 0.78   | 0.75     | 7855    |
+| **Macro Avg** | 0.64 | 0.55   | 0.58     | 7855    |
+| **Weighted Avg** | 0.72 | 0.78 | 0.75     | 7855    |
+
 
 ---
 
