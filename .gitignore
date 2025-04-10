@@ -4,6 +4,7 @@
 /saved_bert_model/
 /saved_clinicalbert_model/
 /saved_clinicalbert_model_epoch6/
+/saved_model_bioclinical/
 
 .DS_Store
 .env
