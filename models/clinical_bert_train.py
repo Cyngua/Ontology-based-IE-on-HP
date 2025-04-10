@@ -20,7 +20,7 @@ from seqeval.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import Trainer, TrainingArguments
 
-MODEL_NAME = "medicalai/ClinicalBERT"
+MODEL_NAME = "emilyalsentzer/Bio_ClinicalBERT"
 
 # Step I: load data
 file_path = 'processed_notes.csv'
@@ -176,7 +176,7 @@ def compute_metrics(p: EvalPrediction):
 
 training_args = TrainingArguments(
     output_dir='./results',
-    num_train_epochs=3,
+    num_train_epochs=6,
     learning_rate=2e-5, # smaller learning rate
     seed=42, # for deterministic results
     per_device_train_batch_size=8,
@@ -204,8 +204,8 @@ trainer = Trainer(
 trainer.train()
 
 # Step VI: Save model
-trainer.save_model("./saved_model")  # Save model, tokenizer, config, etc.
-tokenizer.save_pretrained("./saved_model")
+trainer.save_model("./saved_model_bioclinical")  # Save model, tokenizer, config, etc.
+tokenizer.save_pretrained("./saved_model_bioclinical")
 
 # Step VII: Plot evaluation
 log_history = trainer.state.log_history
@@ -243,4 +243,4 @@ if f1s[0] is not None:
     plt.legend()
 
 plt.tight_layout()
-plt.savefig("figures/medical_ner_output.png")
+plt.savefig("figures/bio_clinical_bert_output.png")
