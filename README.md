@@ -53,7 +53,7 @@ Justification: This experimental design (1) systematically **evaluates transform
 | Post-processing     | Transformer `pipeline`                                                              | Convert IOB/IO format to structured entities          |
 | Extraction          | Python dictionary/set logic, `collections.defaultdict`                           | Aggregate by tags                                     |
 | Normalization       | 🔹 **ScispaCy**, 🔹 **QuickUMLS**, 🔹 **BioPortal API**                            | Map raw terms to SNOMED CT                            |
-| SNOMED CT Integration | 🔸 `pysnomed` (if you have a license) or 🔸 FHIR terminology server              | Lookup and standardize with SNOMED CT concept codes   |
+| SNOMED CT Integration | 🔸 `pysnomed` or UMLS API            | Lookup and standardize with SNOMED CT concept codes   |
 
 ---
 
