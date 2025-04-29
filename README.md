@@ -52,8 +52,8 @@ Justification: This experimental design (1) systematically **evaluates transform
 |---------------------|----------------------------------------------------------------------------------|-------------------------------------------------------|
 | Post-processing     | Transformer `pipeline`                                                              | Convert IOB/IO format to structured entities          |
 | Extraction          | Python dictionary/set logic, `collections.defaultdict`                           | Aggregate by tags                                     |
-| Normalization       | 🔹 **ScispaCy**, 🔹 **QuickUMLS**, 🔹 **BioPortal API**                            | Map raw terms to SNOMED CT                            |
-| SNOMED CT Integration | 🔸 `pysnomed` or UMLS API            | Lookup and standardize with SNOMED CT concept codes   |
+| Normalization       | **ScispaCy**, UMILS API                            | Map raw terms to SNOMED CT                            |
+| SNOMED CT Integration | `pysnomed` or UMLS API            | Lookup and standardize with SNOMED CT concept codes   |
 
 ---
 
@@ -67,9 +67,9 @@ Justification: This experimental design (1) systematically **evaluates transform
 ## Results - Baseline (Feature Extraction)
 |               | Accuracy | Precision | Recall | F1     |
 |---------------|----------|-----------|--------|--------|
-| BERT          | 0.8732	 | 0.4909    | 0.4690 | 0.4797 |
-| Clinical-BERT | **0.8864**	 | 0.5314    | 0.5456 | **0.5384** |
-| DeBERTa       | 0.8787	 | 0.5207    | 0.4942 | 0.5071 |
+| BERT          | 0.87	 | 0.49    | 0.47 | 0.48 |
+| Clinical-BERT | 0.89	 | 0.53    | 0.55 | **0.54** |
+| DeBERTa       | 0.88	 | 0.52    | 0.49 | 0.51 |
 
 Notes: `Clinical-BERT` validation loss has reached its "local minimum", but the evaluation metrics are still terrible. `deBerta` has very fluctuating training loss curve, while the evaluation metrics shows that it truely has the best potential to predict the token classification on the baseline.
 
@@ -139,6 +139,14 @@ Observations:
 | Micro Avg   | 0.72      | 0.79   | 0.76     | 7868    |
 | Macro Avg    | 0.65      | 0.63   | 0.63     | 7868    |
 | Weighted Avg | 0.72      | 0.79   | 0.75     | 7868    |
+
+### BERT-CRF
+
+|               | Precision | Recall | F1   |
+|---------------|-----------|--------|------|
+| BERT          | 0.71      | 0.78   | 0.74 |
+| Clinical-BERT | 0.72      | 0.79   | 0.76 |
+| BERT-CRF      | 0.79      | 0.80   | 0.80 |
 
 ### Summary
 | Averaging    | Metric     | BERT   | ClinicalBERT  |
