@@ -33,19 +33,19 @@ This project focuses on extracting clinically relevant entities (e.g., condition
 ### 4. **Experimental Design**
 - ✅ Model Baseline: pretrained `BERT`, `Clinical-BERT`, `DeBERTa`.
 - ✅ Model Finetuning: `BERT`, `Clinical-BERT`, `DeBERTa` using Huggingface Transformer Training Pipeline.
-- Model Fusion: the best baseline model + CRF.
-- Model Ensemble: integrate prediction results from the three finetuning models.
-- (Optional)Hybrid approaches: (GNN + Transformer embeddings).
+- ✅ BERT+CRF: a BERT encoder whose token-level logits feed a CRF layer.
+- (Future) Model Ensemble: integrate prediction results from multiple models.
+- (Future) Hybrid approaches: (GNN + Transformer embeddings).
 
-Justification: This experimental design (1) systematically **evaluates transformer-based clinical NER** by benchmarking general and clinical-domain models, (2) enhancing them via **CRF-based fusion**, **ensemble modeling**, and (optional) integrating transformer embeddings with graph neural networks for semantic enrichment using clinical ontologies.
+Justification: This experimental design (1) systematically **evaluates transformer-based clinical NER** by benchmarking general and clinical-domain models, (2) enhancing them via **CRF-based BERT**, (Future Direction) **ensemble modeling**, and  integrating transformer embeddings with graph neural networks for semantic enrichment using clinical ontologies.
 
 ### 5. **Evaluation**
-- ✅ Evaluate using precision, recall, and F1-score at the entity level.
-- Perform qualitative comparison against baseline model (`BERT`).
+- Evaluate using precision, recall, and F1-score at the entity level.
+- Perform comparison against baseline model (`BERT`).
 
 ### 6. **Post-processing**
 * ✅ Minimal: Decode model outputs back to text and semantic tags (merge B/I, skip O)
-* Good to have: Extract word-tag pairs
+* ✅ Good to have: Extract word-tag pairs
 * Best to have: Map words to SNOMED CT terms
 
 | **Goal**            | **Tool/Library**                                                                 | **Purpose**                                           |
@@ -268,13 +268,13 @@ Shell script template
 #SBATCH --partition=gpu
 #SBATCH --gpus=a100:1
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=10G                               # Request 10 GiB of memory
-#SBATCH --time=6:00:00                         # Set a maximum runtime of 6 hours
-#SBATCH --output=logs/medical_ner_train_%j.out  # Save standard output to log file
-#SBATCH --error=logs/medical_ner_train_%j.err   # Save error output to log file
+#SBATCH --mem=10G                   # Request 10 GiB of memory
+#SBATCH --time=6:00:00              # Set a maximum runtime of 6 hours
+#SBATCH --output=logs/train_%j.out  # Save standard output to log file
+#SBATCH --error=logs/train_%j.err   # Save error output to log file
 
 # Run the Python script
-python models/medical_ner_train.py
+python models/sample_script.py
 
 # Print job finish time
 echo "Job finished at $(date)"
@@ -282,10 +282,10 @@ echo "Job finished at $(date)"
 
 Authorize and run the job
 ```sh
-chmod +x ~/run_medical_ner_train.sh
+chmod +x ~/sample_train.sh
 ```
 ```sh
-sbatch ~/run_medical_ner_train.sh
+sbatch ~/sample_train.sh
 ```
 ### Issue I: deBerta attention score overflow
 Open the file directly in Terminal with an editor (replace the virtual environment name with yours)
