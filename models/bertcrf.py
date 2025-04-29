@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import tqdm
+from pathlib import Path
 
 from transformers import Trainer, TrainingArguments, DataCollatorWithPadding
 from transformers.tokenization_utils_base import PaddingStrategy
@@ -244,8 +245,15 @@ for epoch in range(EPOCHS):
     print(f"Final: F1 = {eval_metrics['f1_micro']:.4f}, Acc = {eval_metrics['accuracy']:.4f}, Prec = {eval_metrics['precision_micro']:.4f}, Recall = {eval_metrics['recall_micro']:.4f}")
 
 # Save model
-trainer.save_model("./saved_model_bertcrf")
-tokenizer.save_pretrained("./saved_model_bertcrf")
+save_dir = Path("saved_model_bertcrf/bert_crf_run1")
+save_dir.mkdir(parents=True, exist_ok=True)
+# 1)  PyTorch checkpoint ­– everything in one file
+torch.save({
+    "model_state_dict": model.state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),   # optional
+    "label2id": labels_to_ids,                       # keep mappings
+    "id2label": ids_to_labels
+}, save_dir / "bert_crf.pt")
 
 def plot_eval():
     """
